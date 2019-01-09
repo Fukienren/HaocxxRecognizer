@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.baidu.speech.EventListener;
 import com.baidu.speech.EventManager;
 import com.baidu.speech.EventManagerFactory;
@@ -133,6 +134,7 @@ public class ActivityMiniRecog extends AppCompatActivity implements EventListene
 
             @Override
             public void onClick(View v) {
+                Toast.makeText(ActivityMiniRecog.this, "请讲～", Toast.LENGTH_SHORT).show();
                 start();
             }
         });
@@ -182,6 +184,7 @@ public class ActivityMiniRecog extends AppCompatActivity implements EventListene
             BaiduJsonBean result = gson.fromJson(params, BaiduJsonBean.class);
             if (result != null && result.result_type != null && result.result_type.equals("final_result") && result.best_result != null) {
                 printLog(result.best_result);
+                Toast.makeText(this, "请讲～", Toast.LENGTH_SHORT).show();
                 start();
             }
         }
