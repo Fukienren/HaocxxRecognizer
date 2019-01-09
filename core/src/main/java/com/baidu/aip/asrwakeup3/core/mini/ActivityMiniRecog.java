@@ -16,6 +16,7 @@ import com.baidu.speech.EventListener;
 import com.baidu.speech.EventManager;
 import com.baidu.speech.EventManagerFactory;
 import com.baidu.speech.asr.SpeechConstant;
+import com.google.gson.Gson;
 import org.json.JSONObject;
 import test2.baidu.com.baseasr.R;
 
@@ -53,7 +54,7 @@ public class ActivityMiniRecog extends AppCompatActivity implements EventListene
      * 测试参数填在这里
      */
     private void start() {
-        txtLog.setText("");
+        //txtLog.setText("");
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         String event = null;
         event = SpeechConstant.ASR_START; // 替换成测试的event
@@ -86,7 +87,7 @@ public class ActivityMiniRecog extends AppCompatActivity implements EventListene
         String json = null; // 可以替换成自己的json
         json = new JSONObject(params).toString(); // 这里可以替换成你需要测试的json
         asr.send(event, json, null, 0, 0);
-        printLog("输入参数：" + json);
+        //printLog("输入参数：" + json);
     }
 
     /**
@@ -94,7 +95,7 @@ public class ActivityMiniRecog extends AppCompatActivity implements EventListene
      *  基于SDK集成4.1 发送停止事件
      */
     private void stop() {
-        printLog("停止识别：ASR_STOP");
+        //printLog("停止识别：ASR_STOP");
         asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0); //
     }
 
@@ -172,31 +173,36 @@ public class ActivityMiniRecog extends AppCompatActivity implements EventListene
     // 基于SDK集成3.1 开始回调事件
     @Override
     public void onEvent(String name, String params, byte[] data, int offset, int length) {
-        String logTxt = "name: " + name;
+        String logTxt = "";
 
 
         if (params != null && !params.isEmpty()) {
-            logTxt += " ;params :" + params;
-        }
-        if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL)) {
-            if (params != null && params.contains("\"nlu_result\"")) {
-                if (length > 0 && data.length > 0) {
-                    logTxt += ", 语义解析结果：" + new String(data, offset, length);
-                }
+            logTxt += params;
+            Gson gson = new Gson();
+            BaiduJsonBean result = gson.fromJson(params, BaiduJsonBean.class);
+            if (result != null && result.result_type != null && result.result_type.equals("final_result") && result.best_result != null) {
+                printLog(result.best_result);
+                start();
             }
-        } else if (data != null) {
-            logTxt += " ;data length=" + data.length;
         }
-        printLog(logTxt);
+//        if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL)) {
+//            if (params != null && params.contains("\"nlu_result\"")) {
+//                if (length > 0 && data.length > 0) {
+//                    logTxt += ", 语义解析结果：" + new String(data, offset, length);
+//                }
+//            }
+//        } else if (data != null) {
+//            logTxt += " ;data length=" + data.length;
+//        }
     }
 
     private void printLog(String text) {
-        if (logTime) {
-            text += "  ;time=" + System.currentTimeMillis();
-        }
-        text += "\n";
-        Log.i(getClass().getName(), text);
-        txtLog.append(text + "\n");
+//        if (logTime) {
+//            text += "  ;time=" + System.currentTimeMillis();
+//        }
+//        text += "\n";
+//        Log.i(getClass().getName(), text);
+        txtLog.append(text);
     }
 
 
@@ -205,7 +211,7 @@ public class ActivityMiniRecog extends AppCompatActivity implements EventListene
         txtLog = (TextView) findViewById(R.id.txtLog);
         btn = (Button) findViewById(R.id.btn);
         stopBtn = (Button) findViewById(R.id.btn_stop);
-        txtLog.setText(DESC_TEXT + "\n");
+        //txtLog.setText(DESC_TEXT + "\n");
     }
 
     /**

@@ -13,6 +13,7 @@ class IFlyRecognizeDemoActivity : AppCompatActivity(), InitListener, IFlyRecogni
 
     private lateinit var mSpeechRecognizer : SpeechRecognizer
     private lateinit var mIFlyRecognizerListener : IFlyRecognizerListener
+    private var inited = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +26,10 @@ class IFlyRecognizeDemoActivity : AppCompatActivity(), InitListener, IFlyRecogni
 
     override fun onDestroy() {
         super.onDestroy()
-        mSpeechRecognizer.stopListening()
-        mSpeechRecognizer.cancel()
+        if (inited) {
+            mSpeechRecognizer.stopListening()
+            mSpeechRecognizer.cancel()
+        }
     }
 
     private fun init() {
@@ -55,6 +58,7 @@ class IFlyRecognizeDemoActivity : AppCompatActivity(), InitListener, IFlyRecogni
         mIFlyRecognizerListener = IFlyRecognizerListener()
         mIFlyRecognizerListener.setCallback(this)
         mSpeechRecognizer.startListening(mIFlyRecognizerListener)
+        inited = true
     }
 
     override fun onInit(p0: Int) {
@@ -62,7 +66,7 @@ class IFlyRecognizeDemoActivity : AppCompatActivity(), InitListener, IFlyRecogni
     }
 
     override fun onCallback(s : String?) {
-        result_text_view.append(s)
+        result_text_view.append("$s。")
         init()
     }
 

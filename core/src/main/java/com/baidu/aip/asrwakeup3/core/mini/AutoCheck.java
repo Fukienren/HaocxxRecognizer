@@ -109,7 +109,7 @@ public class AutoCheck {
             }
         }
         if (!hasError) {
-            sb.append("【" + name + "】集成自动排查工具： 恭喜没有检测到任何问题\n");
+            //sb.append("【" + name + "】集成自动排查工具： 恭喜没有检测到任何问题\n");
         }
         return sb.toString();
     }
