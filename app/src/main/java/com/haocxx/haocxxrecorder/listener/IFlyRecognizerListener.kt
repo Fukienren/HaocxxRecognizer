@@ -15,7 +15,7 @@ class IFlyRecognizerListener : RecognizerListener {
     private var mCallback : Callback? = null
 
     override fun onVolumeChanged(p0: Int, p1: ByteArray?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d(TAG, "onVolumeChanged")
     }
 
     override fun onResult(recognizerResult: RecognizerResult?, p1: Boolean) {
@@ -35,7 +35,7 @@ class IFlyRecognizerListener : RecognizerListener {
     }
 
     override fun onError(error: SpeechError?) {
-        Log.d(TAG, error.toString())
+        mCallback?.onErrorCalback()
     }
 
     fun setCallback(callback : Callback) {
@@ -44,5 +44,7 @@ class IFlyRecognizerListener : RecognizerListener {
 
     interface Callback {
         fun onCallback(s : String?)
+
+        fun onErrorCalback()
     }
 }

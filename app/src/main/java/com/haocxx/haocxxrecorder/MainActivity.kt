@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(), MediaRecorderManager.OnErrorListener{
         }
 
         ifly_recognize_btn.setOnClickListener {
-            val intent = Intent(this@MainActivity, IFlyRecognizeDemoActivity2::class.java)
+            val intent = Intent(this@MainActivity, IFlyRecognizeDemoActivity::class.java)
             startActivity(intent)
         }
     }

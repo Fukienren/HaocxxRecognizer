@@ -2,6 +2,7 @@ package com.haocxx.haocxxrecorder
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.haocxx.haocxxrecorder.listener.IFlyRecognizerListener
 import com.iflytek.cloud.InitListener
 import com.iflytek.cloud.SpeechConstant
@@ -17,7 +18,15 @@ class IFlyRecognizeDemoActivity : AppCompatActivity(), InitListener, IFlyRecogni
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ifly_recognize_demo)
         title = "科大讯飞语音识别"
-        init()
+        start_btn.setOnClickListener {
+            init()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mSpeechRecognizer.stopListening()
+        mSpeechRecognizer.cancel()
     }
 
     private fun init() {
@@ -26,7 +35,7 @@ class IFlyRecognizeDemoActivity : AppCompatActivity(), InitListener, IFlyRecogni
         mSpeechRecognizer.setParameter( SpeechConstant.CLOUD_GRAMMAR, null )
         mSpeechRecognizer.setParameter( SpeechConstant.SUBJECT, null )
         //设置返回结果格式，目前支持json,xml以及plain 三种格式，其中plain为纯听写文本内容
-        mSpeechRecognizer.setParameter(SpeechConstant.RESULT_TYPE, "json")
+        mSpeechRecognizer.setParameter(SpeechConstant.RESULT_TYPE, "plain")
         //此处engineType为“cloud”
         mSpeechRecognizer.setParameter( SpeechConstant.ENGINE_TYPE, "cloud")
         //设置语音输入语言，zh_cn为简体中文
@@ -53,6 +62,12 @@ class IFlyRecognizeDemoActivity : AppCompatActivity(), InitListener, IFlyRecogni
     }
 
     override fun onCallback(s : String?) {
-        result_text_view.text = s
+        result_text_view.append(s)
+        init()
+    }
+
+    override fun onErrorCalback() {
+        Toast.makeText(this, "请讲~", Toast.LENGTH_SHORT).show()
+        init()
     }
 }
