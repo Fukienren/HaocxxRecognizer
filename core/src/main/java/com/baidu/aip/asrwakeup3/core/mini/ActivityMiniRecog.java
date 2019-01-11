@@ -54,7 +54,7 @@ public class ActivityMiniRecog extends AppCompatActivity implements EventListene
      * 点击开始按钮
      * 测试参数填在这里
      */
-    private void start() {
+    protected void start() {
         //txtLog.setText("");
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         String event = null;
@@ -95,7 +95,7 @@ public class ActivityMiniRecog extends AppCompatActivity implements EventListene
      * 点击停止按钮
      *  基于SDK集成4.1 发送停止事件
      */
-    private void stop() {
+    protected void stop() {
         //printLog("停止识别：ASR_STOP");
         asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0); //
     }

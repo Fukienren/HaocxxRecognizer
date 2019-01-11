@@ -11,7 +11,7 @@
 
     <Button
             android:id="@+id/start_btn"
-            android:text="点击开始语音识别，识别结果将在下面打印"
+            android:text="点击开始语音识别，识别结果将在下面打印。注意：每个APPID有每天使用次数限制。超过会无法使用"
             android:textSize="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

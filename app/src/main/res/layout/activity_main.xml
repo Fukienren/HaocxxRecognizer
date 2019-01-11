@@ -29,4 +29,11 @@
             android:text="科大讯飞语音识别"
             android:textSize="40dp"/>
 
+    <Button
+            android:id="@+id/lock_screen_recognize_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="息屏下静默识别"
+            android:textSize="40dp"/>
+
 </LinearLayout>

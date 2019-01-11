@@ -52,6 +52,11 @@ class MainActivity : AppCompatActivity(), MediaRecorderManager.OnErrorListener{
             val intent = Intent(this@MainActivity, IFlyRecognizeDemoActivity::class.java)
             startActivity(intent)
         }
+
+        lock_screen_recognize_btn.setOnClickListener {
+            val intent = Intent(this@MainActivity, LockScreenRecognizeActivity2::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroy() {
